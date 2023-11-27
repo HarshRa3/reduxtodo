@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CancelDoneButton from "./CancelDoneButton";
 import { Box, Divider, TextField, Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTodo, doneTodo } from "../redux/action";
 const AddTodoField = () => {
   const [inputData, setInputData] = useState("");
   const dispatch = useDispatch();
+  const handleOnPress = (e) => {
+    if (e.key === "Enter") {
+      dispatch(doneTodo(inputData, setInputData("")));
+    }
+  };
+  const focus=useSelector(state=>state.todoReducer.ADDTODO)
+  const inputRef = useRef(null);
+  useEffect(() => {
+    if(focus){
+    inputRef.current.focus()
+  };
+  }, [focus]);
   return (
     <>
       <Box
@@ -40,6 +52,8 @@ const AddTodoField = () => {
             onChange={(e) => {
               setInputData(e.target.value);
             }}
+            inputRef={inputRef}
+            onKeyPress={(e) => handleOnPress(e)}
           />
           <Box
             sx={{
@@ -49,10 +63,13 @@ const AddTodoField = () => {
               justifyContent: "space-between",
             }}
           >
-            <CancelDoneButton btnTitle="cancel" dataa={()=>dispatch(addTodo())} />
+            <CancelDoneButton
+              btnTitle="cancel"
+              dataa={() => dispatch(addTodo())}
+            />
             <CancelDoneButton
               btnTitle="Done"
-              dataa={() => dispatch(doneTodo(inputData,setInputData('')))}
+              dataa={() => dispatch(doneTodo(inputData, setInputData("")))}
             />
           </Box>
         </Box>

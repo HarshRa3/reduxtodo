@@ -1,24 +1,26 @@
-import { nanoid } from "@reduxjs/toolkit";
-
+import { v4 as uuidv4 } from "uuid";
 // Action types
-export const ADD_TODO = 'ADD_TODO';
-export const SHOW_TODO_FIELD = 'SHOW_TODO_FIELD';
-export const DELETE_TODO = 'DELETE_TODO';
-export const REMOVE_TODO = 'REMOVE_TODO';
-export const COMPLETED='COMPLETED'
-
+export const ADD_TODO = "ADD_TODO";
+export const SHOW_TODO_FIELD = "SHOW_TODO_FIELD";
+export const DELETE_TODO = "DELETE_TODO";
+// export const EDIT_TODO = "EDIT_TODO";
+export const COMPLETED = "COMPLETED";
+export const EDITED_TODO = "EDITED_TODO";
+export const SAVE_TO_LOCAL_STORAGE = "SAVE_TO_LOCAL_STORAGE";
 // Action creators
-export const doneTodo = (data) => ({
+export const doneTodo = (data) => (
+  {
   type: ADD_TODO,
   payload: {
-    id: nanoid(),
+    id: uuidv4(),
     data: data,
-    
   },
 });
-export const completeTodo = () => ({
+export const completeTodo = (id) => ({
   type: COMPLETED,
-  
+  payload: {
+    id: id,
+  },
 });
 
 export const addTodo = () => ({
@@ -31,6 +33,22 @@ export const deleteTodo = (id) => ({
     id: id,
   },
 });
-export const removeTodo = () => ({
-  type: REMOVE_TODO,
-})
+// export const edit = (id) => ({
+//   type: EDIT_TODO,
+//   payload: {
+//     id: id,
+//   },
+// });
+export const editedData = (data,id) => ({
+  type: EDITED_TODO,
+  payload: {
+    id: id,
+    data: data,
+  },
+});
+export const saveToLocalStorage = (data) => ({
+  type: SAVE_TO_LOCAL_STORAGE,
+  payload: {
+    data,
+  },
+});
