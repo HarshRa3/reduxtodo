@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import Header from "./components/Header";
-import AddTodoField from "./components/AddTodoField";
 import { useDispatch, useSelector } from "react-redux";
 import DisplayTodos from "./components/DisplayTodos";
 import { completeTodo, deleteTodo, addTodo } from "./redux/action";
 import { Fab } from "@mui/material";
 
 const App = () => {
-  const toggleBtn = useSelector((state) => state.todoReducer.ADDTODO);
   const list = useSelector((state) => state.todoReducer.list);
   const dispatch = useDispatch();
 
@@ -27,7 +25,7 @@ const App = () => {
   return (
     <>
       <Header />
-      {toggleBtn && <AddTodoField />}
+       {/* <AddTodoField /> */}
       {list.map((e) => {
         return (
           <DisplayTodos

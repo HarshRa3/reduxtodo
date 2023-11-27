@@ -1,11 +1,7 @@
-import { Box, Fab, Typography } from "@mui/material";
+import { Box , Typography } from "@mui/material";
 import React from "react";
-import AddIcon from "@mui/icons-material/Add";
-// import { UnpublishedOutlined } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
-import { addTodo } from "../redux/action";
+import AddTodoField from './AddTodoField'
 const Header = () => {
-  const dispatch=useDispatch()
   return (
     <>
       <Box
@@ -13,12 +9,11 @@ const Header = () => {
           display: "flex",
           justifyContent: "space-between",
           padding: "20px",
+          position:'relative'
         }}
       >
         <Typography variant="h3" sx={{fontFamily:'SFProDisplay',fontWeight:'bolder'}}>Today</Typography>
-        <Fab color="success" aria-label="add" onClick={()=>dispatch(addTodo())} >
-          <AddIcon />
-        </Fab>
+        <AddTodoField/>
       </Box>
     </>
   );
