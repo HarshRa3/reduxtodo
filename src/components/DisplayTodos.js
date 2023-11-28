@@ -21,11 +21,11 @@ const DisplayTodos = ({
   checked,
 }) => {
   const [editToggler, setEditToggler] = useState(false);
-  const [editedText, setEditedText] = useState(text);
+  const [editedText, setEditedText] = useState(text.replace(/ +/g,' '));
   const dispatch = useDispatch();
   const handleEditFieldEnter = (e) => {
     if (e.key === "Enter") {
-      dispatch(editedData(editedText, id), setEditToggler(false));
+      dispatch(editedData(editedText.trim(), id), setEditToggler(false));
     }
   };
   const inputRef = useRef(null);
@@ -64,7 +64,7 @@ const DisplayTodos = ({
                 onKeyPress={(e) => handleEditFieldEnter(e)}
                 inputRef={inputRef}
                 onBlur={() => {
-                  dispatch(editedData(editedText, id), setEditToggler(false));
+                  dispatch(editedData(editedText.replace(/ +/g,' '), id), setEditToggler(false));
                 }}
               />
             ) : (
