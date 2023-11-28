@@ -1,29 +1,26 @@
 import {
   ADD_TODO,
+  CLEARALL,
   COMPLETED,
   DELETE_TODO,
   EDITED_TODO,
 } from "../action";
-// ... (import statements)
+
 const initialData = {
-  list: JSON.parse(localStorage.getItem('todos')) || []
+  list: JSON.parse(localStorage.getItem("todos")) || [],
 };
 
 const todoReducer = (state = initialData, action) => {
   switch (action.type) {
-
     case ADD_TODO:
       const { id, data } = action.payload;
-
-      // Check if data is not empty
-      if (data.trim() !== '') {
+      if (data.trim() !== "") {
         const newItem = {
           id: id,
           data: data,
           check: false,
         };
 
-        // Add the new item to the list
         const updatedList = [...state.list, newItem];
 
         return {
@@ -31,7 +28,7 @@ const todoReducer = (state = initialData, action) => {
           list: updatedList,
         };
       } else {
-        return state; // Keep the current state if data is empty
+        return state;
       }
 
     case DELETE_TODO:
@@ -59,9 +56,7 @@ const todoReducer = (state = initialData, action) => {
 
     case EDITED_TODO:
       const { id: editId, data: editData } = action.payload;
-
-      // Check if edited data is not empty
-      if (editData.trim() !== '') {
+      if (editData.trim() !== "") {
         const editedList = state.list.map((item) => {
           if (item.id === editId) {
             return { ...item, data: editData };
@@ -74,8 +69,14 @@ const todoReducer = (state = initialData, action) => {
           list: editedList,
         };
       } else {
-        return state; // Keep the current state if edited data is empty
+        return state;
       }
+   
+    case CLEARALL:
+      return {
+        ...state,
+        list: [],
+      };
 
     default:
       return state;

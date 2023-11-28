@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import DisplayTodos from "./components/DisplayTodos";
-import { completeTodo, deleteTodo, addTodo } from "./redux/action";
-import { Fab } from "@mui/material";
+import { completeTodo, deleteTodo, addTodo, remove } from "./redux/action";
+import { Box, Button, Fab } from "@mui/material";
+import Filter from "./components/Filter";
 
 const App = () => {
   const list = useSelector((state) => state.todoReducer.list);
+  const [filterType, setFilterType] = useState("all");
+  const [filterData, setFilterData] = useState(list);
+
   const dispatch = useDispatch();
 
-  // Retrieve initial data from local storage on component mount
   useEffect(() => {
     const storedTodos = localStorage.getItem("todos");
     if (storedTodos) {
@@ -17,17 +20,32 @@ const App = () => {
     }
   }, [dispatch]);
 
-  // Save to local storage when the 'list' changes
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(list));
+    setFilterData(list); 
   }, [list]);
+
+  useEffect(() => {
+    if (filterType === "completed") {
+      setFilterData(list.filter((item) => item.check === true));
+    } else if (filterType === "incompleted") {
+      setFilterData(list.filter((item) => item.check === false));
+    } else {
+      setFilterData(list);
+    }
+  }, [filterType, list]);
+
+  const handleFilter = (type) => {
+    setFilterType(type);
+  };
 
   return (
     <>
       <Header />
-       {/* <AddTodoField /> */}
-      {list.map((e) => {
-        return (
+
+      {list.length > 0 && <Filter handleFilter={handleFilter} />}
+      <Box sx={{ maxHeight: "500px", overflow: "auto" }}>
+        {filterData.map((e) => (
           <DisplayTodos
             text={e.data}
             key={e.id}
@@ -51,8 +69,15 @@ const App = () => {
               )
             }
           />
-        );
-      })}
+        ))}
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: "10px" }}>
+        {list.length > 0 && (
+          <Button variant="contained" onClick={() => dispatch(remove())}>
+            Clear All
+          </Button>
+        )}
+      </Box>
     </>
   );
 };

@@ -6,29 +6,34 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect,useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDispatch } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
-import {  editedData } from "../redux/action";
-const DisplayTodos = ({ text, handleDelete, handleCheck, complete, id,checked }) => {
+import { editedData } from "../redux/action";
+const DisplayTodos = ({
+  text,
+  handleDelete,
+  handleCheck,
+  complete,
+  id,
+  checked,
+}) => {
   const [editToggler, setEditToggler] = useState(false);
   const [editedText, setEditedText] = useState(text);
-  const dispatch=useDispatch()
-  const handleEditFieldEnter=(e)=>{
-    if(e.key==='Enter'){
-      dispatch(editedData(editedText, id),setEditToggler(false))
+  const dispatch = useDispatch();
+  const handleEditFieldEnter = (e) => {
+    if (e.key === "Enter") {
+      dispatch(editedData(editedText, id), setEditToggler(false));
     }
-  }
-    // Create a ref for the input field
-    const inputRef = useRef(null);
-    useEffect(() => {
-      if (editToggler) {
-        // Focus on the input field when 'edit' is true
-        inputRef.current.focus();
-      }
-    }, [editToggler]);
+  };
+  const inputRef = useRef(null);
+  useEffect(() => {
+    if (editToggler) {
+      inputRef.current.focus();
+    }
+  }, [editToggler]);
   return (
     <>
       <Box sx={{ position: "relative" }}>
@@ -51,22 +56,24 @@ const DisplayTodos = ({ text, handleDelete, handleCheck, complete, id,checked })
               fontFamily: "SFProDisplay",
             }}
           >
-            <Checkbox onClick={handleCheck} checked={checked}  />
+            <Checkbox onClick={handleCheck} checked={checked} />
             {editToggler ? (
-                 <TextField
-                 value={editedText}
-                 onChange={(e) => setEditedText(e.target.value)}
-                 onKeyPress={(e)=>handleEditFieldEnter(e)}
+              <TextField
+                value={editedText}
+                onChange={(e) => setEditedText(e.target.value)}
+                onKeyPress={(e) => handleEditFieldEnter(e)}
                 inputRef={inputRef}
-                onBlur={()=>{dispatch(editedData(editedText, id),setEditToggler(false))}}
-               />
+                onBlur={() => {
+                  dispatch(editedData(editedText, id), setEditToggler(false));
+                }}
+              />
             ) : (
               <Typography
-              variant="h5"
-              sx={{ wordWrap: "anywhere", fontFamily: "SFProText" }}
-            >
-              {text}
-            </Typography>
+                variant="h5"
+                sx={{ wordWrap: "anywhere", fontFamily: "SFProText" }}
+              >
+                {text}
+              </Typography>
             )}
           </Box>
           <Box sx={{ width: { xs: "40%", lg: "23%" } }}>
@@ -78,26 +85,27 @@ const DisplayTodos = ({ text, handleDelete, handleCheck, complete, id,checked })
               }}
             >
               {editToggler ? (
-                   <Fab
-                   size="small"
-                   color="success"
-                   aria-label="edit"
-                   // onClick={handleEdit}
-                   sx={{ zIndex: 1 }}
-                   onClick={() => {dispatch(editedData(editedText, id),setEditToggler(false))}}
-                 >
-                   <AddIcon />
-                 </Fab>
+                <Fab
+                  size="small"
+                  color="success"
+                  aria-label="edit"
+                  sx={{ zIndex: 1 }}
+                  onClick={() => {
+                    dispatch(editedData(editedText, id), setEditToggler(false));
+                  }}
+                >
+                  <AddIcon />
+                </Fab>
               ) : (
                 <Fab
-                size="small"
-                color="secondary"
-                aria-label="edit"
-                sx={{ zIndex: 1 }}
-                onClick={() => setEditToggler(true)}
-              >
-                <EditIcon sx={{ fontFamily: "SFProDisplay" }} />
-              </Fab>
+                  size="small"
+                  color="secondary"
+                  aria-label="edit"
+                  sx={{ zIndex: 1 }}
+                  onClick={() => setEditToggler(true)}
+                >
+                  <EditIcon sx={{ fontFamily: "SFProDisplay" }} />
+                </Fab>
               )}
 
               <Fab
