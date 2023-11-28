@@ -21,7 +21,7 @@ const DisplayTodos = ({
   checked,
 }) => {
   const [editToggler, setEditToggler] = useState(false);
-  const [editedText, setEditedText] = useState(text.trim());
+  const [editedText, setEditedText] = useState(text.replace(/ +/g,' '));
   const dispatch = useDispatch();
   const handleEditFieldEnter = (e) => {
     if (e.key === "Enter") {
@@ -59,12 +59,12 @@ const DisplayTodos = ({
             <Checkbox onClick={handleCheck} checked={checked} />
             {editToggler ? (
               <TextField
-                value={editedText.replace(/ +/g,' ')}
+                value={editedText}
                 onChange={(e) => setEditedText(e.target.value)}
                 onKeyPress={(e) => handleEditFieldEnter(e)}
                 inputRef={inputRef}
                 onBlur={() => {
-                  dispatch(editedData(editedText.trim(), id), setEditToggler(false));
+                  dispatch(editedData(editedText.replace(/ +/g,' '), id), setEditToggler(false));
                 }}
               />
             ) : (
