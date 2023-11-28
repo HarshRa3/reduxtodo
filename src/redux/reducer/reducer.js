@@ -59,7 +59,7 @@ const todoReducer = (state = initialData, action) => {
       if (editData.trim() !== "") {
         const editedList = state.list.map((item) => {
           if (item.id === editId) {
-            return { ...item, data: editData };
+            return { ...item, data: editData.trim() };
           }
           return item;
         });
